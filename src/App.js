@@ -9,12 +9,31 @@ export default class App extends React.Component {
 
   constructor(props){
    super(props)
-  this.state = {isLoading: false,  artifactName:"",loading:0,groupName:""}  
+  this.state = {isLoading: false,  artifactName:"",loading:0,groupName:"",springboot: false}  
 
   this.handleSubmit = this.handleSubmit.bind(this)
   this.handleChange = this.handleChange.bind(this)
   this.handleGroupName = this.handleGroupName.bind(this)
 }
+    springBootOnchange =() =>{
+        console.log(this.state.springboot)
+        if (this.state.springboot == true){
+
+        this.setState({springboot:false})
+
+        console.log(this.state.springboot)
+        }
+        else {
+
+        this.setState({springboot:true})
+
+        console.log(this.state.springboot)
+
+        }
+    }
+    onFocus = () => {
+        this.setState({loading:0})
+    }
    handleGroupName (event){
     this.setState({loading:0    })
     this.setState({groupName:event.target.value})
@@ -33,7 +52,7 @@ export default class App extends React.Component {
 
    
     axios.post('http://localhost:8080/generate/setInfo',{ groupName: this.state.groupName,
-      artifactName: this.state.artifactName, javaVersion:9})
+      artifactName: this.state.artifactName, javaVersion:9 ,isSpringBootApp:this.state.springboot})
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -63,6 +82,7 @@ export default class App extends React.Component {
                 link.setAttribute('download', filename);
                  document.body.appendChild(link);
                  link.click();
+
   
             });
 
@@ -97,16 +117,17 @@ export default class App extends React.Component {
       
         <FormGroup>
           <Label for="exampleEmail">Group Name</Label>
-          <Input type="text" name="groupName" id="exampleEmail" placeholder="com.example" disabled={this.state.isLoading} value={this.state.groupName} onChange={this.handleGroupName}/>
+          <Input type="text" name="groupName" id="exampleEmail" placeholder="com.example" disabled={this.state.isLoading} value={this.state.groupName} onChange={this.handleGroupName}
+           onFocus={this.onFocus}/>
         </FormGroup>
                 <FormGroup>
           <Label for="exampleEmail">Artificat</Label>
-          <Input type="text" name="artiID" id="exampleEmail" placeholder="testApp" disabled={this.state.isLoading} value={this.state.artifactName} onChange={this.handleChange}/>
+          <Input type="text" name="artiID" id="exampleEmail" placeholder="testApp" disabled={this.state.isLoading} value={this.state.artifactName} onChange={this.handleChange} onFocus={this.onFocus}/>
    </FormGroup>
 
         <FormGroup>
           <Label for="exampleSelect">JavaVersion</Label>
-          <Input type="select" name="select" id="exampleSelect" disabled={this.state.isLoading}>
+          <Input type="select" name="select" id="exampleSelect" disabled={this.state.isLoading} onFocus={this.onFocus}>
             <option>1.8</option>
             <option>1.11</option>
             <option>1.12</option>
@@ -116,19 +137,19 @@ export default class App extends React.Component {
 
         <FormGroup check>
           <Label check>
-            <Input type="checkbox"  disabled={this.state.isLoading}/>
+            <Input type="checkbox"  disabled={this.state.isLoading} onFocus={this.onFocus}/>
             Kafka Producer
           </Label>
         </FormGroup>
                 <FormGroup check>
           <Label check>
-            <Input type="checkbox" disabled={this.state.isLoading}/>
+            <Input type="checkbox" disabled={this.state.isLoading} onFocus={this.onFocus}/>
             Kafka Consumer
           </Label>
         </FormGroup>
                       <FormGroup check>
           <Label check>
-            <Input type="checkbox" disabled={this.state.isLoading} />
+            <Input type="checkbox" disabled={this.state.isLoading}  onChange={this.springBootOnchange} />
             Spring Boot Microservice
           </Label>
         </FormGroup>
@@ -143,7 +164,7 @@ export default class App extends React.Component {
 
    </FormGroup>
 
-      <Progress striped value={this.state.loading} animated />
+      <Progress striped value={this.state.loading} animated={this.state.isLoading} />
    
       </div>
       </div>
