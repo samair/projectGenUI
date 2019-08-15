@@ -16,18 +16,16 @@ export default class App extends React.Component {
   this.handleGroupName = this.handleGroupName.bind(this)
 }
     springBootOnchange =() =>{
-        console.log(this.state.springboot)
-        if (this.state.springboot == true){
+        if (this.state.springboot){
 
         this.setState({springboot:false})
 
-        console.log(this.state.springboot)
+      
         }
         else {
 
         this.setState({springboot:true})
-
-        console.log(this.state.springboot)
+  
 
         }
     }
@@ -49,7 +47,7 @@ export default class App extends React.Component {
     handleSubmit () {
 
      this.setState({isLoading: true});
-
+     console.log("Spring boot app"+this.state.springboot)
    
     axios.post('http://localhost:8080/generate/setInfo',{ groupName: this.state.groupName,
       artifactName: this.state.artifactName, javaVersion:9 ,isSpringBootApp:this.state.springboot})
@@ -135,18 +133,6 @@ export default class App extends React.Component {
           </Input>
         </FormGroup>
 
-        <FormGroup check>
-          <Label check>
-            <Input type="checkbox"  disabled={this.state.isLoading} onFocus={this.onFocus}/>
-            Kafka Producer
-          </Label>
-        </FormGroup>
-                <FormGroup check>
-          <Label check>
-            <Input type="checkbox" disabled={this.state.isLoading} onFocus={this.onFocus}/>
-            Kafka Consumer
-          </Label>
-        </FormGroup>
                       <FormGroup check>
           <Label check>
             <Input type="checkbox" disabled={this.state.isLoading}  onChange={this.springBootOnchange} />
