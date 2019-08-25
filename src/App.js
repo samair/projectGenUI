@@ -69,7 +69,7 @@ groupNameText:"Group name is the revrse dns name..",formTextArtifactIdColor:"mut
 
         axios({
             // url: 'http://localhost:8080/generate/v1/maven',
-              url:'http://javaprojgen.herokuapp.com/generate/v1/maven',
+              url:'https://javaprojgen.herokuapp.com/generate/v1/maven',
               method: 'POST',
             responseType: 'blob', // important
             data: {groupName: this.state.groupName,
